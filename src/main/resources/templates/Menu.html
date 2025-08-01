@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pure Healthy Eats - Menu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background: #f8fafc; --foreground: #1f2937; --muted-foreground: #6b7280;
+            --primary: #10B981; --primary-foreground: #ffffff; --secondary: #6366f1;
+            --card: #ffffff; --border: #e2e8f0; --muted: #f1f5f9; --destructive: #ef4444;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--background); color: var(--foreground); margin: 0; padding: 0; box-sizing: border-box; }
+        .bg-gradient-to-br { background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)); }
+        .from-background { --tw-gradient-from: var(--background); --tw-gradient-to: rgba(var(--background-rgb), 0); }
+        .via-primary\/5 { --tw-gradient-stops: var(--tw-gradient-from), rgba(16, 185, 129, 0.05), var(--tw-gradient-to); }
+        .to-secondary\/10 { --tw-gradient-to: rgba(99, 102, 241, 0.1); }
+        .text-primary { color: var(--primary); }
+        .text-muted-foreground { color: var(--muted-foreground); }
+        .text-green-700 { color: #047857; }
+        .input { display: flex; height: 2.5rem; width: 100%; border-radius: 0.375rem; border: 1px solid #d1d5db; background-color: var(--card); padding: 0.5rem 0.75rem; font-size: 0.875rem; }
+        .input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2); }
+        .button { display: inline-flex; align-items: center; justify-content: center; border-radius: 0.375rem; font-weight: 500; transition: all 0.2s ease-in-out; cursor: pointer; padding: 0.625rem 1rem; font-size: 0.875rem; text-align: center; }
+        .button.variant-default { background-color: var(--primary); color: var(--primary-foreground); }
+        .button.variant-default:hover { background-color: #059669; }
+        .button.variant-outline { background-color: transparent; border: 1px solid var(--border); color: var(--foreground); }
+        .button.variant-outline:hover { background-color: var(--muted); }
+        .button.size-sm { height: 2.25rem; padding: 0.5rem 0.75rem; font-size: 0.875rem; }
+        .product-card { background-color: var(--card); border-radius: 0.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); overflow: hidden; border: 1px solid var(--border); cursor: pointer; transform: scale(1); transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; }
+        .product-card:hover { transform: scale(1.03); box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
+        .product-card-image-container { position: relative; width: 100%; padding-bottom: 56.25%; overflow: hidden; background-color: var(--muted); }
+        .product-card-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+        .badge { display: inline-flex; align-items: center; border-radius: 9999px; padding: 0.25rem 0.75rem; font-size: 0.75rem; font-weight: 500; line-height: 1; }
+        .badge.variant-secondary { background-color: var(--secondary); color: var(--primary-foreground); }
+        .badge.variant-outline { background-color: transparent; border: 1px solid var(--border); color: var(--foreground); }
+        .badge.bg-background\/80 { background-color: rgba(248, 250, 252, 0.8); }
+        .gradient-text { background-image: linear-gradient(to right, #10B981, #8BC34A); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .category-button.active { background-color: var(--primary); color: var(--primary-foreground); box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); }
+    </style>
+</head>
+<body class="min-h-screen bg-green-50">
+    <div class="min-h-screen bg-gradient-to-br from-background via-primary/5 to-secondary/10 flex flex-col">
+        <header class="bg-white shadow-md p-4 sticky top-0 z-50">
+            <nav class="container mx-auto flex justify-between items-center">
+                <a th:href="@{/}" class="text-2xl font-bold text-green-700">Pure Healthy Eats</a>
+                <div class="flex-grow flex justify-center space-x-4">
+                    <a th:href="@{/menu}" class="text-green-700 font-bold border-b-2 border-green-700">Menu</a>
+                    <a th:href="@{/subscribe}" class="text-gray-700 hover:text-green-700">Subscribe</a>
+                    <a th:href="@{/track-order}" class="text-gray-700 hover:text-green-700">Track Order</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a th:href="@{/login}" class="text-gray-700 hover:text-green-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M12 2a10 10 0 0 0-9.8 12.5c.2.5.5 1 1 1.4A10 10 0 0 0 12 22a10 10 0 0 0 9.8-7.5c.5-.4.8-.9 1-1.4A10 10 0 0 0 12 2Z"></path><circle cx="12" cy="10" r="3"></circle><path d="M17.9 16.5c-.3-.9-1-1.6-1.9-2.2-1.1-.7-2.4-1.1-3.9-1.3-1.5-.2-3-.2-4.5 0-1.5.2-2.8.6-3.9 1.3-.9.6-1.6 1.3-1.9 2.2"></path></svg>
+                    </a>
+                    <a th:href="@{/cart}" class="text-gray-700 hover:text-green-700 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>
+                    </a>
+                </div>
+            </nav>
+        </header>
+
+        <main class="pt-20 pb-12 px-6">
+            <div class="container mx-auto">
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl font-bold mb-4 gradient-text">Our Healthy Menu</h1>
+                    <p class="text-lg text-muted-foreground max-w-2xl mx-auto">Discover our carefully crafted selection of nutritious and delicious meals</p>
+                </div>
+
+                <div class="max-w-md mx-auto mb-8">
+                    <div class="relative">
+                        <input type="text" id="search-input" placeholder="Search for healthy dishes..." class="input pl-10 pr-4 py-2 rounded-full focus:ring-primary focus:border-primary border-gray-300 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-3 mb-12" id="category-filters">
+                    <button class="button variant-outline rounded-full category-button active" data-filter="all">All Items</button>
+                    <button class="button variant-outline rounded-full category-button" data-filter="salad">Salads</button>
+                    <button class="button variant-outline rounded-full category-button" data-filter="bowl">Bowls</button>
+                    <button class="button variant-outline rounded-full category-button" data-filter="smoothie">Smoothies</button>
+                    <button class="button variant-outline rounded-full category-button" data-filter="wrap">Wraps</button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="menu-items-grid">
+                    <div th:each="product : ${products}" class="product-card" th:attr="data-categories=${product.category + (product.isVegan ? ' vegan' : '')}">
+                        <div class="product-card-image-container">
+                            <img th:src="@{'/img/' + ${product.imageUrl}}" th:alt="${product.name}" th:title="${product.name}" class="product-card-image" onerror="this.onerror=null;this.src='https://placehold.co/500x300/cccccc/333333?text=No+Image';"/>
+                            <div class="absolute top-2 left-2 flex gap-1">
+                                <span th:if="${product.isVegan}" class="badge variant-secondary gap-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M11 20A7 7 0 0 1 9.86 6.47c-.91-2.75-4.44-3.5-5.1-.17A7 7 0 0 0 19 11.72c4.45 1.5 2.5 7.5-2.47 9-3.6.9-6.5-.88-8.53-2.5Z"/><path d="M12 13H7"/></svg>
+                                    Vegan
+                                </span>
+                                <span class="badge variant-outline gap-1 bg-background/80">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                    <span th:text="${product.prepTimeInMinutes} + ' min'"></span>
+                                </span>
+                            </div>
+                            <div class="absolute top-2 right-2 flex items-center gap-1 bg-background/80 rounded-full px-2 py-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3 fill-primary text-primary"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                <span class="text-xs font-medium" th:text="${product.rating}"></span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold text-lg mb-2" th:text="${product.name}"></h3>
+                            <p class="text-muted-foreground text-sm mb-3 line-clamp-2" th:text="${product.description}"></p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xl font-bold text-primary" th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 'COMMA', 2, 'POINT')}"></span>
+                                <a th:href="@{'/product/' + ${product.id}}" class="button size-sm variant-default">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center py-12 hidden" id="no-items-message">
+                    <p class="text-muted-foreground text-lg">No items found matching your search criteria.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('search-input');
+            const categoryButtons = document.querySelectorAll('.category-button');
+            const productCards = document.querySelectorAll('.product-card');
+            const noItemsMessage = document.getElementById('no-items-message');
+            let currentFilter = 'all';
+
+            function applyFilters() {
+                const searchTerm = searchInput.value.toLowerCase();
+                let itemsFound = false;
+
+                productCards.forEach(card => {
+                    const categories = (card.dataset.categories || '').toLowerCase();
+                    const title = (card.querySelector('h3')?.textContent || '').toLowerCase();
+                    const description = (card.querySelector('p')?.textContent || '').toLowerCase();
+
+                    const matchesFilter = (currentFilter === 'all' || categories.includes(currentFilter));
+                    const matchesSearch = (title.includes(searchTerm) || description.includes(searchTerm));
+
+                    if (matchesFilter && matchesSearch) {
+                        card.style.display = 'block';
+                        itemsFound = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                noItemsMessage.classList.toggle('hidden', itemsFound);
+            }
+
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    currentFilter = button.dataset.filter;
+                    applyFilters();
+                });
+            });
+
+            searchInput.addEventListener('keyup', applyFilters);
+
+            // Initial filter on page load
+            applyFilters();
+        });
+    </script>
+</body>
+</html>

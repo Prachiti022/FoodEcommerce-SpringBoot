@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pure Healthy Eats - Delivery & Billing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        :root { --background: #f8fafc; --foreground: #1f2937; --muted-foreground: #6b7280; --primary: #10B981; --primary-foreground: #ffffff; --card: #ffffff; --border: #e2e8f0; }
+        .text-primary { color: var(--primary); }
+        .text-green-700 { color: #047857; }
+        .card { background-color: var(--card); border-radius: 0.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); }
+        .button { display: inline-flex; align-items: center; justify-content: center; border-radius: 0.375rem; font-weight: 500; transition: all 0.2s ease-in-out; cursor: pointer; padding: 0.625rem 1rem; font-size: 0.875rem; text-align: center; }
+        .button.variant-default { background-color: var(--primary); color: var(--primary-foreground); }
+        .button.variant-default:hover { background-color: #059669; }
+        .label { font-size: 0.875rem; font-weight: 500; color: #374151; display: block; margin-bottom: 0.5rem; }
+        .input { display: flex; height: 2.5rem; width: 100%; border-radius: 0.375rem; border: 1px solid #d1d5db; background-color: #fff; padding: 0.5rem 0.75rem; font-size: 0.875rem; }
+        .separator { height: 1px; background-color: var(--border); width: 100%; margin: 1rem 0; }
+    </style>
+</head>
+<body class="min-h-screen bg-green-50">
+    <header class="bg-white shadow-md p-4 sticky top-0 z-50">
+        <nav class="container mx-auto flex justify-between items-center">
+                <a th:href="@{/}" class="text-2xl font-bold text-green-700">Pure Healthy Eats</a>
+                <div class="flex-grow flex justify-center space-x-4">
+                    <a th:href="@{/menu}" class="text-gray-700 hover:text-green-700">Menu</a>
+                    <a th:href="@{/subscribe}" class="text-gray-700 hover:text-green-700">Subscribe</a>
+                    <a th:href="@{/track-order}" class="text-gray-700 hover:text-green-700">Track Order</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a th:href="@{/login}" class="text-gray-700 hover:text-green-700 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 2a10 10 0 0 0-9.8 12.5c.2.5.5 1 1 1.4A10 10 0 0 0 12 22a10 10 0 0 0 9.8-7.5c.5-.4.8-.9 1-1.4A10 10 0 0 0 12 2Z"></path><circle cx="12" cy="10" r="3"></circle><path d="M17.9 16.5c-.3-.9-1-1.6-1.9-2.2-1.1-.7-2.4-1.1-3.9-1.3-1.5-.2-3-.2-4.5 0-1.5.2-2.8.6-3.9 1.3-.9.6-1.6 1.3-1.9 2.2"></path></svg></a>
+                    <a th:href="@{/cart}" class="text-gray-700 hover:text-green-700 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg></a>
+                </div>
+            </nav>
+    </header>
+    <main class="py-12 px-6">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-12">
+<h1 class="text-4xl font-bold mb-4 gradient-text flex items-center justify-center">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline w-10 h-10 mr-2 flex-shrink-0">
+        <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/>
+        <path d="M19 18h2a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1h-1.44a2 2 0 0 1-1.41-.59L14.5 9"/>
+        <circle cx="10" cy="18" r="2"/>
+        <circle cx="17" cy="18" r="2"/>
+    </svg>
+    Delivery & Billing
+</h1>                <p class="text-lg text-muted-foreground">We're almost there! Just need your details</p>
+            </div>
+            <form th:action="@{/place-order}" method="post" th:object="${orderRequest}">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="card p-6">
+                        <h2 class="text-2xl font-semibold mb-6">Delivery Information</h2>
+                        <div class="space-y-6">
+                            <div>
+                                <label for="fullName" class="label">Full Name *</label>
+                                <div class="relative">
+                                    <input type="text" id="fullName" th:field="*{fullName}" placeholder="Enter your full name" class="input pl-10" required>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400">
+                                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div>
+    <label for="email" class="label">Email *</label>
+    <div class="relative">
+        <input type="email" id="email" th:field="*{email}" placeholder="Enter your email" class="input pl-10" required>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400">
+            <rect width="20" height="16" x="2" y="4" rx="2"/>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+        </svg>
+    </div>
+</div>
+<div>
+    <label for="phoneNumber" class="label">Phone Number *</label>
+    <div class="relative">
+        <input type="tel" id="phoneNumber" th:field="*{phoneNumber}" placeholder="Enter your phone number" class="input pl-10" required>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-3.94-3.94A19.79 19.79 0 0 1 2 3.18 2 2 0 0 1 4.18 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+    </div>
+</div>
+<div>
+    <label for="streetAddress" class="label">Street Address *</label>
+    <div class="relative">
+        <input type="text" id="streetAddress" th:field="*{streetAddress}" placeholder="Enter your street address" class="input pl-10" required>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400">
+            <path d="M20 9V5H4v4"/>
+            <path d="M22 9H2l7.21 12.89a1 1 0 0 0 1.78 0L22 9Z"/>
+            <path d="M6 16h12"/>
+        </svg>
+    </div>
+</div>                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div><label for="aptSuite" class="label">Apt/Suite (optional)</label><input type="text" id="aptSuite" th:field="*{aptSuite}" placeholder="402" class="input"></div>
+                                <div><label for="city" class="label">City *</label><input type="text" id="city" th:field="*{city}" placeholder="City" class="input" required></div>
+                                <div><label for="zipCode" class="label">ZIP Code *</label><input type="text" id="zipCode" th:field="*{zipCode}" placeholder="ZIP Code" class="input" required></div>
+                            </div>
+                            <div><label for="deliveryInstructions" class="label">Delivery Instructions (optional)</label><textarea id="deliveryInstructions" th:field="*{deliveryInstructions}" placeholder="Any special delivery instructions..." class="input h-24 resize-none"></textarea></div>
+                        </div>
+                    </div>
+                    <div class="card p-6 h-fit sticky top-24">
+                        <h2 class="text-2xl font-semibold mb-6">Order Summary</h2>
+                        <div class="space-y-3 mb-6">
+                            <div th:each="item : ${cart.items}" class="flex justify-between items-center text-lg">
+                                <span><span th:text="${item.quantity}"></span>x <span th:text="${item.productName}"></span></span>
+                                <span th:text="'$' + ${#numbers.formatDecimal(item.price * item.quantity, 1, 'COMMA', 2, 'POINT')}"></span>
+                            </div>
+                        </div>
+                        <div class="separator"></div>
+                        <div class="space-y-3 mb-6">
+                            <div class="flex justify-between items-center text-lg"><span class="text-muted-foreground">Subtotal</span><span class="font-medium" th:text="'$' + ${#numbers.formatDecimal(cart.subtotal, 1, 'COMMA', 2, 'POINT')}"></span></div>
+                            <div class="flex justify-between items-center text-lg"><span class="text-muted-foreground">Delivery Fee</span><span class="font-medium">$2.99</span></div>
+                            <div class="flex justify-between items-center text-lg"><span class="text-muted-foreground">Tax</span><span class="font-medium">$3.32</span></div>
+                        </div>
+                        <div class="separator"></div>
+                        <div class="flex justify-between items-center text-xl font-bold mb-6 text-primary"><span>Total</span><span th:text="'$' + ${#numbers.formatDecimal(cart.subtotal + 2.99 + 3.32, 1, 'COMMA', 2, 'POINT')}"></span></div>
+<button type="submit" class="button w-full variant-default">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3 mr-2 flex-shrink-0">
+        <rect width="20" height="14" x="2" y="5" rx="2"/>
+        <line x1="2" x2="22" y1="10" y2="10"/>
+    </svg>
+    Continue to Payment
+</button>                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

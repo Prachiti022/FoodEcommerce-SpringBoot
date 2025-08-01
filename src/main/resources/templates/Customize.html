@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pure Healthy Eats - Customize Your Bowl</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        :root { --background: #f8fafc; --foreground: #1f2937; --muted-foreground: #6b7280; --primary: #10B981; --primary-foreground: #ffffff; --secondary: #6366f1; --card: #ffffff; --border: #e2e8f0; --muted: #f1f5f9; --destructive: #ef4444; }
+        .text-primary { color: var(--primary); } .text-green-700 { color: #047857; }
+        .card { background-color: var(--card); border-radius: 0.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); border: 1px solid var(--border); }
+        .button { display: inline-flex; align-items: center; justify-content: center; border-radius: 0.375rem; font-weight: 500; transition: all 0.2s ease-in-out; cursor: pointer; padding: 0.625rem 1rem; font-size: 0.875rem; text-align: center; }
+        .button.variant-default { background-color: var(--primary); color: var(--primary-foreground); }
+        .button.variant-default:hover { background-color: #059669; }
+        .separator { height: 1px; background-color: var(--border); width: 100%; margin: 1rem 0; }
+    </style>
+</head>
+<body class="min-h-screen bg-green-50">
+    <div class="min-h-screen bg-background flex flex-col">
+        <header class="bg-white shadow-md p-4 sticky top-0 z-50">
+            <nav class="container mx-auto flex justify-between items-center">
+                <a th:href="@{/}" class="text-2xl font-bold text-green-700">Pure Healthy Eats</a>
+                <div class="flex-grow flex justify-center space-x-4">
+                    <a th:href="@{/menu}" class="text-gray-700 hover:text-green-700">Menu</a>
+                    <a th:href="@{/subscribe}" class="text-gray-700 hover:text-green-700">Subscribe</a>
+                    <a th:href="@{/track-order}" class="text-gray-700 hover:text-green-700">Track Order</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a th:href="@{/login}" class="text-gray-700 hover:text-green-700 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M12 2a10 10 0 0 0-9.8 12.5c.2.5.5 1 1 1.4A10 10 0 0 0 12 22a10 10 0 0 0 9.8-7.5c.5-.4.8-.9 1-1.4A10 10 0 0 0 12 2Z"></path><circle cx="12" cy="10" r="3"></circle><path d="M17.9 16.5c-.3-.9-1-1.6-1.9-2.2-1.1-.7-2.4-1.1-3.9-1.3-1.5-.2-3-.2-4.5 0-1.5.2-2.8.6-3.9 1.3-.9.6-1.6 1.3-1.9 2.2"></path></svg></a>
+                    <a th:href="@{/cart}" class="text-gray-700 hover:text-green-700 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg></a>
+                </div>
+            </nav>
+        </header>
+        <main class="py-12 px-6">
+            <div class="container mx-auto max-w-6xl">
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl font-bold mb-2">Customize Your Bowl</h1>
+                    <p class="text-lg text-muted-foreground">Make it exactly how you like it</p>
+                </div>
+                <form th:action="@{/cart/add/custom}" method="post">
+                    <input type="hidden" name="productId" th:value="${product.id}" />
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="space-y-8">
+                            <div class="card p-6">
+                                <h2 class="text-2xl font-semibold mb-6">Choose Your Size</h2>
+                                <div class="space-y-4">
+                                    <label class="flex items-center justify-between p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50"><div class="flex items-center"><input type="radio" name="bowlSize" value="small" class="form-radio h-5 w-5 text-primary focus:ring-primary rounded-full" onchange="updateOrderSummary()"><div class="ml-3"><span class="text-lg font-medium text-foreground">Small</span><p class="text-sm text-muted-foreground">Perfect for a light meal</p></div></div><span class="text-primary font-semibold">Included</span></label>
+                                    <label class="flex items-center justify-between p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50"><div class="flex items-center"><input type="radio" name="bowlSize" value="regular" class="form-radio h-5 w-5 text-primary focus:ring-primary rounded-full" checked onchange="updateOrderSummary()"><div class="ml-3"><span class="text-lg font-medium text-foreground">Regular</span><p class="text-sm text-muted-foreground">Our standard, satisfying size</p></div></div><span class="text-primary font-semibold">Included</span></label>
+                                    <label class="flex items-center justify-between p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50"><div class="flex items-center"><input type="radio" name="bowlSize" value="large" class="form-radio h-5 w-5 text-primary focus:ring-primary rounded-full" onchange="updateOrderSummary()"><div class="ml-3"><span class="text-lg font-medium text-foreground">Large</span><p class="text-sm text-muted-foreground">For a heartier appetite</p></div></div><span class="text-foreground font-medium">+$2.50</span></label>
+                                </div>
+                            </div>
+                            <div class="card p-6">
+                                <h2 class="text-2xl font-semibold mb-6">Add Extra Toppings</h2>
+                                <div class="space-y-4">
+                                    <label class="flex items-center justify-between p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50"><div class="flex items-center"><input type="checkbox" name="topping" value="Avocado" class="form-checkbox h-5 w-5 text-primary focus:ring-primary rounded" onchange="updateOrderSummary()"><span class="ml-3 text-lg font-medium text-foreground">Avocado</span></div><span class="text-foreground font-medium">+$1.50</span></label>
+                                    <label class="flex items-center justify-between p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50"><div class="flex items-center"><input type="checkbox" name="topping" value="Extra Chicken" class="form-checkbox h-5 w-5 text-primary focus:ring-primary rounded" onchange="updateOrderSummary()"><span class="ml-3 text-lg font-medium text-foreground">Extra Chicken</span></div><span class="text-foreground font-medium">+$3.00</span></label>
+                                    <label class="flex items-center justify-between p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50"><div class="flex items-center"><input type="checkbox" name="topping" value="Feta Cheese" class="form-checkbox h-5 w-5 text-primary focus:ring-primary rounded" onchange="updateOrderSummary()"><span class="ml-3 text-lg font-medium text-foreground">Feta Cheese</span></div><span class="text-foreground font-medium">+$1.00</span></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card p-6 h-fit sticky top-24">
+                            <h2 class="text-2xl font-semibold mb-6">Order Summary</h2>
+                            <div class="space-y-3 mb-6">
+                                <div class="flex justify-between items-center text-lg"><span th:text="${product.name}"></span><span id="basePrice" th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 'COMMA', 2, 'POINT')}"></span></div>
+                                <div class="flex justify-between items-center text-lg"><span class="text-muted-foreground">Size: <span id="selectedSize">Regular</span></span><span id="sizeCost" class="text-primary font-semibold">Included</span></div>
+                                <div id="toppingsSummary" class="space-y-2"></div>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="flex justify-between items-center text-xl font-bold mb-6 text-primary"><span>Total</span><span id="totalPrice"></span></div>
+                            <button type="submit" class="button w-full variant-default"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mr-2 flex-shrink-0"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>Add to Cart</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script th:inline="javascript">
+        const BASE_PRICE = /*[[${product.price}]]*/ 0;
+        const SIZE_PRICES = { small: 0, regular: 0, large: 2.50 };
+        const TOPPING_PRICES = { "Avocado": 1.50, "Extra Chicken": 3.00, "Feta Cheese": 1.00 };
+
+        function updateOrderSummary() {
+            let currentTotal = BASE_PRICE;
+            let selectedSizeText = 'Regular';
+            let sizeCostText = 'Included';
+
+            const selectedSizeRadio = document.querySelector('input[name="bowlSize"]:checked');
+            if (selectedSizeRadio) {
+                const sizeValue = selectedSizeRadio.value;
+                currentTotal += SIZE_PRICES[sizeValue];
+                selectedSizeText = sizeValue.charAt(0).toUpperCase() + sizeValue.slice(1);
+                if (SIZE_PRICES[sizeValue] > 0) {
+                    sizeCostText = `+$${SIZE_PRICES[sizeValue].toFixed(2)}`;
+                }
+            }
+            document.getElementById('selectedSize').textContent = selectedSizeText;
+            document.getElementById('sizeCost').textContent = sizeCostText;
+
+            const toppingsSummaryDiv = document.getElementById('toppingsSummary');
+            toppingsSummaryDiv.innerHTML = '';
+            const selectedToppings = document.querySelectorAll('input[name="topping"]:checked');
+            if (selectedToppings.length > 0) {
+                selectedToppings.forEach(topping => {
+                    const toppingValue = topping.value;
+                    const toppingPrice = TOPPING_PRICES[toppingValue];
+                    currentTotal += toppingPrice;
+                    const toppingItem = document.createElement('div');
+                    toppingItem.className = 'flex justify-between items-center text-md text-muted-foreground pl-4';
+                    toppingItem.innerHTML = `<span>- ${toppingValue}</span><span>+$${toppingPrice.toFixed(2)}</span>`;
+                    toppingsSummaryDiv.appendChild(toppingItem);
+                });
+            }
+            document.getElementById('totalPrice').textContent = `$${currentTotal.toFixed(2)}`;
+        }
+        window.onload = function() {
+            updateOrderSummary();
+        };
+    </script>
+</body>
+</html>
