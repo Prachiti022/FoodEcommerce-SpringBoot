@@ -450,7 +450,7 @@
                                 </li>
                             </ul>
                             <div class="space-y-2 mt-auto">
-                                <button class="button w-full variant-default" onclick="setNotification('Basic Plan selected!', 'SubscriptionConfirmation.html')">
+                                <button class="button w-full variant-default" onclick="setNotification('Basic Plan selected!', '')">
                                     Choose Plan
                                 </button>
                             </div>
@@ -600,7 +600,7 @@
                                 </li>
                             </ul>
                             <div class="space-y-2 mt-auto">
-                                <button class="button w-full variant-default" onclick="setNotification('Family Plan selected!', 'SubscriptionConfirmation.html')">
+                                <button class="button w-full variant-default" onclick="setNotification('Family Plan selected!', '')">
                                     Choose Plan
                                 </button>
                             </div>
@@ -696,15 +696,26 @@
             }
         });
 
-        /**
-         * Sets a notification message in sessionStorage and navigates to a new page.
-         * @param {string} message - The message to display in the notification.
-         * @param {string} url - The URL to navigate to.
-         */
         function setNotification(message, url) {
-            sessionStorage.setItem('notificationMessage', message);
-            window.location.href = url;
+    sessionStorage.setItem('notificationMessage', message);
+    // Only redirect if a URL is actually provided
+    if (url) {
+        window.location.href = url;
+    } else {
+        // If no URL, just show the pop-up on the current page
+        const popup = document.getElementById('notification-popup');
+        const messageElement = document.getElementById('notification-message');
+        if (popup && messageElement) {
+            messageElement.textContent = message;
+            popup.classList.remove('hidden');
+            popup.classList.add('show');
+            setTimeout(() => {
+                popup.classList.remove('show');
+                popup.classList.add('hidden');
+            }, 3000);
         }
+    }
+}
 
         // Handle notifications on page load
         window.onload = function() {
