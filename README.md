@@ -1,4 +1,4 @@
-Pure Healthy Eats - Full-Stack E-commerce Web Application
+#Pure Healthy Eats - Full-Stack E-commerce Web Application#
 Welcome to Pure Healthy Eats, a complete full-stack e-commerce web application designed for a modern healthy food delivery service. This project provides a seamless online ordering experience for customers, from browsing a dynamic menu to making secure online payments.
 
 Live Demo: [Your Render URL Here] (e.g., https://pure-healthy-eats-app.onrender.com)
@@ -133,5 +133,6 @@ The application will start on http://localhost:8080. The first time it runs, Spr
 Once the application is running, open MySQL Workbench.
 
 Run the INSERT commands for the products to populate your menu. You can find these commands in the project files.
+
 
 Your application is now fully functional on your local machine.
